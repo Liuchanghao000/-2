@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 命名空间 早期版本是可选的 现在是必须的 可以是随意的名称 但是最好是全限定名称 -->
+<!-- 命名空间使用的是对应的接口的全限定名称 -->
+<mapper namespace="com.lch.goods.mapper.GoodMapper">
+
+	<select id="list" resultMap="good_brand_kind">
+		select g.*,b.bname,k.kname from
+			tb_goods g left join tb_brand b on 
+			g.bid=b.bid left join tb_goodskind k on
+		g.kid=k.kid
+	</select>
+	<!-- 定义商品、品牌、种类的映射关系 -->
+	<resultMap type="com.lch.goods.bean.Good" id="good_brand_kind">
+		<!-- good表 -->
+		<id column="gid" property="gid" />
+		<result column="gname" property="gname" />
+		<result column="gename" property="gename" />
+		<result column="size" property="size" />
+		<result column="price" property="price" />
+		<result column="num" property="num" />
+		<result column="label" property="label" />
+		<result column="img" property="img" />
+		<!-- brand表 -->
+		<association property="brand" javaType="com.lch.goods.bean.Brand">
+			<id column="bid" property="bid" />
+			<result column="bname" property="bname" />
+		</association>
+		
+
+		<!-- kind表 -->
+		<association property="kind" javaType="com.lch.goods.bean.Kind">
+			<id column="kid" property="kid" />
+			<result column="kname" property="kname" />
+		</association>
+	</resultMap>
+</mapper>
